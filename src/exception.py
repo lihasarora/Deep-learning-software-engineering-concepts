@@ -1,5 +1,5 @@
 import sys
-import logger as lg
+from src.logger import logging
 def error_message_detail(error,error_detail:sys):
     # The third part gives detail about on which line the exception is there and 
     # what is the exception
@@ -26,5 +26,5 @@ if __name__ == "__main__":
     try:
         a = 1/0
     except Exception as e:
-        lg.logging.info("Divide by 0 error")
+        logging.info("Divide by 0 error")
         raise CustomException(e,sys)
