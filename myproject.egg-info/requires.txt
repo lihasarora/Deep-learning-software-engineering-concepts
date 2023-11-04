@@ -47,5 +47,3 @@ tzdata==2023.3
 urllib3==1.26.16
 Werkzeug==2.3.7
 wrapt==1.15.0
-# when we install the requirements.txt file, the setup.py gets executed automatically due to the -e . statement
--e .
