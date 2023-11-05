@@ -1,0 +1,4 @@
+[2023-11-05 00:46:31,234] 27 root - INFO - Data Ingestion Started
+[2023-11-05 00:46:31,235] 30 root - INFO - Data Loaded into df
+[2023-11-05 00:46:31,238] 36 root - INFO - Train Test Split initiated
+[2023-11-05 00:46:31,241] 40 root - INFO - Ingestion of the data is completed
