@@ -3,6 +3,7 @@ import dill
 from src.exception import CustomException
 import sys
 from sklearn.metrics import r2_score
+from sklearn.model_selection import GridSearchCV
 
 def save_object(file_path, obj):
     try:
@@ -14,16 +15,36 @@ def save_object(file_path, obj):
             dill.dump(obj, file_obj)
     except Exception as e:
         raise CustomException(e,sys)
-    
-    
-def evaluate_model(X_train,y_train,X_test ,y_test ,models ):
+
+
+def load_object(file_path):
+    try:
+        with open(file_path, "rb") as file_obj:
+            return dill.load(file_obj)
+    except Exception as e:
+        raise(CustomException(e,sys))
+
+
+
+def evaluate_model(X_train,y_train,X_test ,y_test ,models, param ):
     
     try:
         report  = {}
         for i in range(len(models)):
+            print(list(models.keys())[i])
             model = list(models.values())[i]
             
-            model.fit(X_train,y_train) # train the model
+            try:
+                print("Grid search")
+                para = param[list(model.keys())[i]]
+                gs = GridSearchCV(model,para,cv = 3)
+                gs.fit(X_train,y_train)
+                model.set_params(**gs.best_params_)
+            except:
+                pass
+            model.fit(X_train,y_train)
+            
+            # model.fit(X_train,y_train) # train the model
             print("model training finished")
             y_train_pred = model.predict(X_train)
             y_test_pred  = model.predict(X_test)
@@ -38,5 +59,4 @@ def evaluate_model(X_train,y_train,X_test ,y_test ,models ):
         raise CustomException(e,sys)
 
 if __name__ =='__main__':
-    a = 6
-    save_object("test/",a)
+    pass

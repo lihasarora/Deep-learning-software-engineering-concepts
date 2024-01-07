@@ -48,7 +48,15 @@ class ModelTrainer:
             models = {
                 "Random Forest": RandomForestRegressor(),
                 "Decision Tree": DecisionTreeRegressor(),
-                "Linear Regression": LinearRegression()
+                # "Linear Regression": LinearRegression()
+            }
+            
+            params = {
+                "Random Forest":{
+                    'n_estimators': [100,150,200], 
+                    'criterion': ['absolute_error'],
+                     'max_depth': [5,8,9,10,20,25,30]
+                    }
             }
             
             # Explicitly annotating the variable with the variable type clarifies things a little bit.
@@ -61,7 +69,8 @@ class ModelTrainer:
                 y_train = y_train,
                 X_test  = X_test,
                 y_test  = y_test,
-                models  = models
+                models  = models,
+                param=params
             )            
             # get the best model score from the dictionary
             model_name  = np.array(list(model_report.keys()))

@@ -1,0 +1,59 @@
+from flask import Flask, request, render_template
+import numpy as np
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+from src.pipeline.predict_pipeline import CustomData, PredictPipeline
+
+application   =  Flask(__name__)
+app = application
+
+    """_summary_
+
+    - Routes in flask is a way to map URLs to functions. When we create a route in Flask, we are essentially telling the
+    application what to do when a user visits a particular URL.
+    @app.route('/about')
+    def about():
+        return 'This is the about page'
+
+    @app.route('/contact')
+    def contact():
+        return 'Contact us at contact@example.com'
+
+       
+    """
+
+## create route for homepage
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+
+@app.route('/predictdata', methods = ['GET','POST'])
+def predict_datapoint():
+    if request.method == 'GET':
+        return render_template('home.html')
+    else:
+        data = CustomData(
+            gender= request.form.get('gender'),
+            race_ethnicity= request.form.get('race_ethnicity'),
+            parental_level_of_eduction= request.form.get('parental_level_of_eduction'),
+            lunch= request.form.get('lunch'),
+            test_preparation_course= request.form.get('test_preparation_course'),
+            reading_score= float(request.form.get('reading_score')),
+            writing_score= float(request.form.get('writing_score'))
+            )
+        
+        try:
+            pred_df = data.get_data_as_data_frame()
+            print(pred_df.head())
+            predict_pipeline = PredictPipeline()
+            results = predict_pipeline.predict(pred_df)
+            
+            return render_template('home.html', results = results[0])
+        except:
+            return "An Error Occured" 
+    
+if __name__ == "__main__":
+    app.run(host = "0.0.0.0", debug = True)
+
+
