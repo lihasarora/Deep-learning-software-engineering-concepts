@@ -23,7 +23,7 @@ logging.basicConfig(
 # as main program, the __name__ is set to __main__ by the compiler automatically
 
 # If this program is imported as a module by some other program, it the 
-# below code doesn't get executed
+# below code doesn't get executedd
 
 if __name__ == "__main__":
     logging.info("Logging has started")
